@@ -20,6 +20,7 @@ export const PlanningPoker = () => {
     const [gameState, setGameState] = useState(defaultGameState);
     const { users, vote, clearVotes, revealVotesForEveryone, removeUser } = usePlanningPoker(gameState);
     const [selectedVote, setSelectedVote] = useState(null);
+    const [kickedOff, setKickedOff] = useState(null);
 
     const handleVote = (card) => {
         setSelectedVote(card);
@@ -72,14 +73,29 @@ export const PlanningPoker = () => {
                 playersNum++;
                 points += Number(users[uuid].vote);
             }
-
         }
         return playersNum == 0 ? 0 : points / playersNum;
     }
 
-    useEffect(() => {
+    const checkIfKickedOf = () => {
+        let kickedOff = true;
+        for (const uuid in users) {
+            if (users[uuid]?.userId && users[uuid].userId == gameState.userId) {
+                return false;
+            }
+        }
+        return kickedOff;
+    }
 
-    }, [])
+    useEffect(() => {
+        console.log('Object.entries', Object.entries(users));
+        if (gameState.userId) {
+            const kickedOff = checkIfKickedOf();
+            if (kickedOff) {
+                setKickedOff(kickedOff);
+            }
+        }
+    }, [Object.entries(users).length])
 
     const showVotes = showVotesAnyUser();
     const avegare = getAvegareValue();
@@ -94,7 +110,6 @@ export const PlanningPoker = () => {
                 destroyOnClose={true}
                 closable={false}
             >
-
                 <div className="planning-poker__fields-container">
                     <div className="planning-poker__field-container--column">
                         <div className="planning-poker__players-label" >Name</div>
@@ -111,8 +126,29 @@ export const PlanningPoker = () => {
                 </div>
             </Modal >
 
+            <Modal
+                open={kickedOff}
+                footer={null}
+                className="inventory__modal"
+                centered={true}
+                destroyOnClose={true}
+                closable={false}
+            >
+                <div className="planning-poker__kickedoff-container">
+
+                    <div>
+                        You were kicked off from this room, please refresh
+                    </div>
+                    <span className="planning-poker__kickedoff-face">
+                        🙃
+                    </span>
+
+                </div>
+            </Modal >
+
+
             {
-                gameState.sessionId &&
+                gameState.sessionId && !kickedOff &&
                 <>
                     <div className="planning-poker__banner-container">
                         <h1>Planning Poker</h1>
