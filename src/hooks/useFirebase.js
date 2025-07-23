@@ -17,7 +17,6 @@ export function usePlanningPoker(gameState) {
     useEffect(() => {
         if (gameState.sessionId) {
             const unsubscribe = onValue(sessionUsersRef, (snapshot) => {
-                console.log(snapshot.val());
                 setUsers(snapshot.val() || {});
             });
 

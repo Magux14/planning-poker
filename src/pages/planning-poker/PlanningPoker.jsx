@@ -1,11 +1,9 @@
-// PlanningPoker.js
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePlanningPoker } from '../../hooks/useFirebase';
 import { Modal } from 'antd';
 import { Spin } from 'antd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './planning-poker.scss'
-
 
 const cards = ['1', '2', '3', '5', '8', '13'];
 
@@ -58,7 +56,6 @@ export const PlanningPoker = () => {
     const showVotesAnyUser = () => {
         let revealVotes = false;
         for (const uuid in users) {
-            console.log(users[uuid]);
             if (users[uuid] && users[uuid].isAdmin && users[uuid].revealVotes) {
                 revealVotes = true;
             }
@@ -71,7 +68,6 @@ export const PlanningPoker = () => {
         let points = 0;
         let playersNum = 0;
         for (const uuid in users) {
-            console.log(users[uuid]);
             if (users[uuid]?.vote && !isNaN(Number(users[uuid].vote))) {
                 playersNum++;
                 points += Number(users[uuid].vote);
@@ -80,10 +76,6 @@ export const PlanningPoker = () => {
         }
         return playersNum == 0 ? 0 : points / playersNum;
     }
-
-    useEffect(() => {
-        console.log(users)
-    }, [users]);
 
     useEffect(() => {
 
