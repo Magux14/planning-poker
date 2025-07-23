@@ -1,0 +1,174 @@
+.planning-poker {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__fields-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &__field-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        input[type="checkbox"] {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+    &__field-container--column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: bold;
+        font-size: 24px;
+        gap: 10px;
+
+        input {
+            width: 80%;
+            font-size: 18px;
+            border: 1px solid rgb(221, 221, 221);
+        }
+    }
+
+    &__button-join-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__button-join {
+        width: 150px;
+        padding: 10px 20px;
+        color: white;
+        background: rgb(65, 65, 184);
+        border-radius: 15px;
+        font-weight: bold;
+
+        &:enabled:hover {
+            opacity: 0.8;
+        }
+
+        &:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+    }
+
+    &__players-label {
+        flex-basis: 70%;
+    }
+
+    &__players-input {
+        border-radius: 5px;
+        min-width: 0;
+        text-align: center;
+    }
+
+    &__banner-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 20px 0;
+        color: white;
+        text-transform: uppercase;
+        background: black;
+    }
+
+    &__players-title-container {
+        margin: 20px;
+        display: flex;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 30px;
+    }
+
+    &__players-title {
+        font-size: 30px;
+    }
+
+    &__players-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__player {
+        display: flex;
+        justify-content: space-between;
+        text-transform: capitalize;
+        font-size: 20px;
+        background: rgb(233, 233, 233);
+        padding: 15px 10px;
+        border-radius: 10px;
+        gap: 10px;
+    }
+
+    &__voting-status {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        padding: 0 10px;
+        gap: 10px;
+    }
+
+    &__voting-status--show-votes {
+        font-size: 20px;
+        font-weight: bold;
+        color: rgb(14, 14, 124);
+    }
+
+    &__cards-container {
+        display: flex;
+        gap: 10px;
+
+        button {
+            font-size: 25px;
+            width: 60px;
+            height: 100px;
+            color: white;
+            border-radius: 24px;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &__average-container {
+        display: flex;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    &__buttons-container {
+        display: flex;
+        gap: 20px;
+
+        button {
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    &__delete-user-button {
+        border: none;
+        border-radius: 10px;
+        margin-right: 20px;
+        background: rgb(168, 28, 28);
+        color: white;
+
+        &:hover {
+            opacity: 0.5;
+        }
+    }
+}

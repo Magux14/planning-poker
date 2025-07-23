@@ -1,0 +1,76 @@
+$mobileMaxValue: 990px;
+
+@font-face {
+    font-family: "tragicMarker";
+    src: url('https://magux14.github.io/boardgames/fonts/TragicMarker.otf');
+}
+
+@font-face {
+    font-family: "blockbuster";
+    src: url('https://magux14.github.io/boardgames/fonts/Blockletter.otf');
+}
+
+@font-face {
+    font-family: "superMario";
+    src: url('https://magux14.github.io/boardgames/fonts/SuperMario256.ttf');
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+.text-center {
+    text-align: center;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    --header-background-color: rgb(49, 49, 49);
+}
+
+body {
+    // background: rgba(37, 37, 37, 0.466);
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.align-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.copy-to-clipboard {
+    cursor: pointer;
+}
+
+.main-info-container {
+    background: #1BC5C1;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+img {
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#main-container {
+    margin-top: 44px;
+    background: white;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
