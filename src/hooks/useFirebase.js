@@ -56,7 +56,6 @@ export function usePlanningPoker(gameState) {
     };
 
     const removeUser = (userId) => {
-        debugger
         return remove(ref(db, `sessions/${gameState.sessionId}/users/${userId}`));
     };
 
