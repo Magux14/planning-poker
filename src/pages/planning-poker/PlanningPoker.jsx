@@ -78,8 +78,6 @@ export const PlanningPoker = () => {
             }
 
         }
-        console.log('playersNum', playersNum);
-        console.log('points', points);
         return playersNum == 0 ? 0 : points / playersNum;
     }
 
@@ -133,13 +131,21 @@ export const PlanningPoker = () => {
                         <div className="planning-poker__players-title-container">PLAYERS:</div>
                         <div className="planning-poker__players-container">
                             {Object.entries(users).map(([uid, user]) => (
-                                <div className="planning-poker__player" key={uid}>
+                                <div className={`planning-poker__player ${gameState.name == user.name ? 'planning-poker__player--me' : ''}`} key={uid}>
 
                                     <div>
-                                        <button className="planning-poker__delete-user-button" onClick={() => removeUser(user.userId)}><DeleteIcon /></button>
-                                        <span>
+                                        {
+                                            gameState.isAdmin &&
+                                            <button className="planning-poker__delete-user-button" onClick={() => removeUser(user.userId)}><DeleteIcon /></button>
+                                        }
+                                        {
+                                            user.isAdmin &&
+                                            <span className="planning-poker__player-admin-label">
+                                                Admin
+                                            </span>
+                                        }
+                                        <span className="planning-poker__player-name" style={{ textTransform: 'capitalize' }}>
                                             {user.name}
-
                                         </span>
                                     </div>
                                     {
@@ -148,7 +154,6 @@ export const PlanningPoker = () => {
                                             {user.vote ? `✅` : <><Spin /> voting...</>}
                                         </div>
                                     }
-
                                     {
                                         showVotes &&
                                         <div className="planning-poker__voting-status planning-poker__voting-status--show-votes">

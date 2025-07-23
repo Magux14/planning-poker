@@ -102,13 +102,28 @@
 
     &__player {
         display: flex;
+        position: relative;
         justify-content: space-between;
-        text-transform: capitalize;
         font-size: 20px;
         background: rgb(233, 233, 233);
         padding: 15px 10px;
         border-radius: 10px;
         gap: 10px;
+    }
+
+    &__player--me {
+        background: rgb(213, 243, 240);
+    }
+
+    &__player-name {
+        text-transform: capitalize;
+    }
+
+    &__player-admin-label {
+        position: absolute;
+        color: rgb(146, 0, 0);
+        font-size: 12px;
+        top: 7px;
     }
 
     &__voting-status {
@@ -171,4 +186,5 @@
             opacity: 0.5;
         }
     }
+
 }
