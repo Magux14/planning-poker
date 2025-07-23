@@ -38,7 +38,8 @@ export const PlanningPoker = () => {
         const sessionId = `${date.getFullYear()}${date.getDate() + 1}${date.getDay()}`;
         setGameState({
             ...gameState,
-            userId: gameState.name,
+            name: gameState.name.toLowerCase(),
+            userId: gameState.name.toLowerCase(),
             sessionId
         })
     }
@@ -88,7 +89,6 @@ export const PlanningPoker = () => {
     }
 
     useEffect(() => {
-        console.log('Object.entries', Object.entries(users));
         if (gameState.userId) {
             const kickedOff = checkIfKickedOf();
             if (kickedOff) {
@@ -202,9 +202,11 @@ export const PlanningPoker = () => {
                         </div>
                     }
 
-
                     <div>
-                        <strong>Your Vote:</strong>
+                        <div className="planning-poker__cards-title-container">
+                            Your Vote:
+                        </div>
+
                         <div className="planning-poker__cards-container">
                             {cards.map((card) => (
                                 <button
