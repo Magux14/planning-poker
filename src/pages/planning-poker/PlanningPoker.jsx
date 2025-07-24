@@ -140,7 +140,7 @@ export const PlanningPoker = () => {
                 <div className="planning-poker__kickedoff-container">
 
                     <div>
-                        You were kicked off from this room, please refresh
+                        You have been kicked out of this room, please refresh the page
                     </div>
                     <span className="planning-poker__kickedoff-face">
                         🙃
