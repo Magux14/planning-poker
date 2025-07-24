@@ -3,6 +3,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        padding-bottom: 100px;
     }
 
     &__fields-container {
@@ -76,10 +77,19 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        padding: 20px 0;
+        padding: 10px 0;
         color: white;
-        text-transform: uppercase;
         background: black;
+        font-family: 'blockbuster', 'Courier New', Courier, monospace;
+
+        h1 {
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        h4 {
+            font-size: 15px;
+        }
     }
 
     &__players-title-container {
@@ -87,43 +97,61 @@
         display: flex;
         justify-content: center;
         font-weight: bold;
-        font-size: 30px;
-    }
+        font-size: 15px;
 
-    &__players-title {
-        font-size: 30px;
+        @media (max-width: 990px) {
+            margin: 10px;
+        }
     }
 
     &__players-container {
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 0 10px;
+        box-sizing: border-box;
         gap: 10px;
     }
 
     &__player {
+        flex: 0 0 calc(50% - 10px);
         display: flex;
         position: relative;
         justify-content: space-between;
-        font-size: 20px;
+        align-items: center;
+        font-size: 12px;
         background: rgb(233, 233, 233);
-        padding: 15px 10px;
+        padding: 10px;
         border-radius: 10px;
         gap: 10px;
+        max-width: 250px;
+
+        @media (max-width: 990px) {
+            flex: 100%;
+        }
     }
 
     &__player--me {
         background: rgb(213, 243, 240);
     }
 
+    &__player-name-container {
+        display: flex;
+        align-items: center;
+    }
+
     &__player-name {
+        position: relative;
         text-transform: capitalize;
+        font-weight: bold;
     }
 
     &__player-admin-label {
         position: absolute;
         color: rgb(146, 0, 0);
-        font-size: 12px;
-        top: 7px;
+        font-size: 8px;
+        top: -8px;
+        left: 0;
     }
 
     &__voting-status {
@@ -135,9 +163,14 @@
     }
 
     &__voting-status--show-votes {
-        font-size: 20px;
+        font-size: 15px;
         font-weight: bold;
         color: rgb(14, 14, 124);
+    }
+
+    &__voting-status--didnt-vote {
+        padding-right: 6px;
+        font-size: 12px;
     }
 
     &__cards-container {
@@ -147,6 +180,9 @@
         gap: 10px;
 
         button {
+            overflow: hidden;
+            position: relative;
+            border: 4px solid rgb(236, 236, 236);
             font-size: 25px;
             width: 60px;
             height: 100px;
@@ -156,6 +192,47 @@
 
         button:hover {
             opacity: 0.8;
+            transform: scale(1.01);
+        }
+    }
+
+    &__shine-card_test {
+        content: '';
+        position: absolute;
+        top: -100%;
+        left: -100%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(120deg,
+                rgba(255, 255, 255, 0) 40%,
+                rgba(255, 255, 255, 0.5) 50%,
+                rgba(255, 255, 255, 0) 60%);
+        transform: rotate(25deg);
+        // animation: shineMove 7.5s ease-in-out infinite;
+    }
+
+    @keyframes shineMove {
+        0% {
+            transform: translate(-100%, -100%) rotate(25deg);
+            opacity: 0;
+        }
+
+        5% {
+            opacity: 1;
+        }
+
+        33.33% {
+            transform: translate(100%, 100%) rotate(25deg);
+            opacity: 1;
+        }
+
+        38% {
+            opacity: 0;
+        }
+
+        100% {
+            transform: translate(100%, 100%) rotate(25deg);
+            opacity: 0;
         }
     }
 
@@ -170,10 +247,12 @@
         justify-content: center;
         font-size: 25px;
         font-weight: bold;
+        margin-top: 10px;
     }
 
     &__buttons-container {
         display: flex;
+        justify-content: center;
         gap: 20px;
 
         button {
@@ -184,11 +263,19 @@
     }
 
     &__delete-user-button {
+        display: flex;
+        align-items: center;
         border: none;
-        border-radius: 10px;
-        margin-right: 20px;
+        border-radius: 5px;
+        margin-right: 10px;
         background: rgb(168, 28, 28);
         color: white;
+        height: 20px;
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
 
         &:hover {
             opacity: 0.5;
@@ -203,6 +290,26 @@
 
     &__kickedoff-face {
         font-size: 50px;
+    }
+
+    &__elements-container {
+        max-width: 1200px;
+        justify-content: center;
+        width: 100%;
+        padding: 10px 30px;
+        display: flex;
+
+        @media (max-width: 990px) {
+            flex-direction: column;
+        }
+    }
+
+    &__element-players {
+        flex: 40%;
+    }
+
+    &__element-cards {
+        flex: 40%;
     }
 
 }

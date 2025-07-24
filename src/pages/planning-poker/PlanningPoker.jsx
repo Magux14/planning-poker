@@ -34,8 +34,11 @@ export const PlanningPoker = () => {
     };
 
     const initSession = () => {
-        const date = new Date();
-        const sessionId = `${date.getFullYear()}${date.getDate() + 1}${date.getDay()}`;
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // enero es 0
+        const day = String(today.getDate()).padStart(2, '0');
+        const sessionId = `${year}${month}${day}`;
         setGameState({
             ...gameState,
             name: gameState.name.toLowerCase(),
@@ -75,7 +78,7 @@ export const PlanningPoker = () => {
                 points += Number(users[uuid].vote);
             }
         }
-        return playersNum == 0 ? 0 : points / playersNum;
+        return playersNum == 0 ? 0 : (points / playersNum).toFixed(1);
     }
 
     const checkIfKickedOf = () => {
@@ -155,107 +158,104 @@ export const PlanningPoker = () => {
                         <h4>Room {gameState.sessionId}</h4>
                     </div>
 
-                    <div style={{ marginBottom: '1rem' }}>
-                        <div className="planning-poker__players-title-container">PLAYERS:</div>
-                        <div className="planning-poker__players-container">
-                            {Object.entries(users).map(([uid, user]) => (
-                                <div className={`planning-poker__player ${gameState.name == user.name ? 'planning-poker__player--me' : ''}`} key={uid}>
-
-                                    <div>
-                                        {
-                                            gameState.isAdmin &&
-                                            <button className="planning-poker__delete-user-button" onClick={() => removeUser(user.userId)}><DeleteIcon /></button>
-                                        }
-                                        {
-                                            user.isAdmin &&
-                                            <span className="planning-poker__player-admin-label">
-                                                Admin
+                    <div className="planning-poker__elements-container">
+                        <div className="planning-poker__element-players">
+                            <div className="planning-poker__players-title-container">PLAYERS:</div>
+                            <div className="planning-poker__players-container">
+                                {Object.entries(users).map(([uid, user]) => (
+                                    <div className={`planning-poker__player ${gameState.name == user.name ? 'planning-poker__player--me' : ''}`} key={uid}>
+                                        <div className="planning-poker__player-name-container">
+                                            {
+                                                gameState.isAdmin &&
+                                                <button className="planning-poker__delete-user-button" onClick={() => removeUser(user.userId)}><DeleteIcon /></button>
+                                            }
+                                            <span className="planning-poker__player-name" style={{ textTransform: 'capitalize' }}>
+                                                {user.name}
+                                                {
+                                                    user.isAdmin &&
+                                                    <span className="planning-poker__player-admin-label">
+                                                        Admin
+                                                    </span>
+                                                }
                                             </span>
+                                        </div>
+                                        {
+                                            !showVotes &&
+                                            <div className="planning-poker__voting-status">
+                                                {user.vote ? `✅` : <><Spin /> voting...</>}
+                                            </div>
                                         }
-                                        <span className="planning-poker__player-name" style={{ textTransform: 'capitalize' }}>
-                                            {user.name}
-                                        </span>
+                                        {
+                                            showVotes &&
+                                            <div className={`planning-poker__voting-status planning-poker__voting-status--show-votes ${!user.vote ? 'planning-poker__voting-status--didnt-vote' : ''}`}>
+                                                {user.vote ? ` ${user.vote} ` : '❌'}
+                                            </div>
+                                        }
                                     </div>
-                                    {
-                                        !showVotes &&
-                                        <div className="planning-poker__voting-status">
-                                            {user.vote ? `✅` : <><Spin /> voting...</>}
-                                        </div>
-                                    }
-                                    {
-                                        showVotes &&
-                                        <div className="planning-poker__voting-status planning-poker__voting-status--show-votes">
-                                            {user.vote ? `${user.vote}` : '❌'}
-                                        </div>
-                                    }
+                                ))}
+                            </div>
+
+                            {
+                                showVotes &&
+                                <div className="planning-poker__average-container">
+                                    Average: {avegare}
                                 </div>
-                            ))}
+                            }
                         </div>
 
+                        <div className="planning-poker__element-cards">
+                            <div className="planning-poker__cards-title-container">
+                                Your Vote:
+                            </div>
+
+                            <div className="planning-poker__cards-container">
+                                {cards.map((card) => (
+                                    <button
+                                        key={card}
+                                        onClick={() => handleVote(card)}
+                                        style={{
+                                            backgroundColor: selectedVote === card ? 'rgba(44, 163, 179, 1)' : 'rgba(15, 23, 79, 1)',
+                                            borderRadius: '5px',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        {card}
+                                        <div className="planning-poker__shine-card"></div>
+                                    </button>
+                                ))}
+                            </div>
+                            {gameState.isAdmin && (
+                                <div className="planning-poker__buttons-container">
+                                    <button
+                                        onClick={() => handleRevealVotes(true)}
+                                        style={{
+                                            marginTop: '1.5rem',
+                                            padding: '0.5rem 1rem',
+                                            backgroundColor: 'green',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '5px',
+                                        }}
+                                    >
+                                        Reveal cards
+                                    </button>
+                                    <button
+                                        onClick={handleClearVotes}
+                                        style={{
+                                            marginTop: '1.5rem',
+                                            padding: '0.5rem 1rem',
+                                            backgroundColor: '#f44336',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '5px',
+                                        }}
+                                    >
+                                        Start new voting
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
-
-
-                    {
-                        showVotes &&
-                        <div className="planning-poker__average-container">
-                            Average: {avegare}
-                        </div>
-                    }
-
-                    <div>
-                        <div className="planning-poker__cards-title-container">
-                            Your Vote:
-                        </div>
-
-                        <div className="planning-poker__cards-container">
-                            {cards.map((card) => (
-                                <button
-                                    key={card}
-                                    onClick={() => handleVote(card)}
-                                    style={{
-                                        padding: '0.5rem 1rem',
-                                        backgroundColor: selectedVote === card ? 'rgba(44, 163, 179, 1)' : 'rgba(15, 23, 79, 1)',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    {card}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {gameState.isAdmin && (
-                        <div className="planning-poker__buttons-container">
-                            <button
-                                onClick={() => handleRevealVotes(true)}
-                                style={{
-                                    marginTop: '1.5rem',
-                                    padding: '0.5rem 1rem',
-                                    backgroundColor: 'green',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                }}
-                            >
-                                Show votes
-                            </button>
-                            <button
-                                onClick={handleClearVotes}
-                                style={{
-                                    marginTop: '1.5rem',
-                                    padding: '0.5rem 1rem',
-                                    backgroundColor: '#f44336',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                }}
-                            >
-                                Clear Votes
-                            </button>
-                        </div>
-                    )}
                 </>
             }
 
