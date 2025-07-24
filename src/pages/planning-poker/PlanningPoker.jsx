@@ -4,6 +4,7 @@ import { Modal } from 'antd';
 import { Spin } from 'antd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './planning-poker.scss'
+import { useSearchParams } from 'react-router-dom';
 
 const cards = ['1', '2', '3', '5', '8', '13'];
 
@@ -34,11 +35,19 @@ export const PlanningPoker = () => {
     };
 
     const initSession = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // enero es 0
-        const day = String(today.getDate()).padStart(2, '0');
-        const sessionId = `${year}${month}${day}`;
+        let sessionId;
+        const query = new URLSearchParams(window.location.search);
+        const roomByParam = query.get('room');
+        if (roomByParam) {
+            sessionId = roomByParam;
+        } else {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            sessionId = `${year}${month}${day}`;
+        }
+
         setGameState({
             ...gameState,
             name: gameState.name.toLowerCase(),
@@ -81,21 +90,21 @@ export const PlanningPoker = () => {
         return playersNum == 0 ? 0 : (points / playersNum).toFixed(1);
     }
 
-    const checkIfKickedOf = () => {
-        let kickedOff = true;
+    const checkIfKickedOut = () => {
+        let kickedOut = true;
         for (const uuid in users) {
             if (users[uuid]?.userId && users[uuid].userId == gameState.userId) {
                 return false;
             }
         }
-        return kickedOff;
+        return kickedOut;
     }
 
     useEffect(() => {
         if (gameState.userId) {
-            const kickedOff = checkIfKickedOf();
-            if (kickedOff) {
-                setKickedOff(kickedOff);
+            const kickedOut = checkIfKickedOut();
+            if (kickedOut) {
+                setKickedOff(kickedOut);
             }
         }
     }, [Object.entries(users).length])
@@ -149,13 +158,12 @@ export const PlanningPoker = () => {
                 </div>
             </Modal >
 
-
             {
                 gameState.sessionId && !kickedOff &&
                 <>
                     <div className="planning-poker__banner-container">
                         <h1>Planning Poker</h1>
-                        <h4>Room {gameState.sessionId}</h4>
+                        <h4>Room: "{gameState.sessionId}"</h4>
                     </div>
 
                     <div className="planning-poker__elements-container">
