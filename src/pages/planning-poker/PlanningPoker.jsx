@@ -272,8 +272,8 @@ export const PlanningPoker = () => {
                                         >
                                             {card}
                                             <div className="planning-poker__shine-card"></div>
-                                            <img src={`../imgs/card-icons/${getIconByCard(card)}.webp`} className="planning-poker__top-icon" />
-                                            <img src={`../imgs/card-icons/${getIconByCard(card)}.webp`} className="planning-poker__bottom-icon" />
+                                            <img src={`./imgs/card-icons/${getIconByCard(card)}.webp`} className="planning-poker__top-icon" />
+                                            <img src={`./imgs/card-icons/${getIconByCard(card)}.webp`} className="planning-poker__bottom-icon" />
                                         </button>
                                     ))}
                             </div>
