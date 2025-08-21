@@ -7,6 +7,7 @@ import {
     set,
     update,
     remove,
+    onDisconnect
 } from 'firebase/database';
 
 export function usePlanningPoker(gameState) {
@@ -58,6 +59,8 @@ export function usePlanningPoker(gameState) {
     const removeUser = (userId) => {
         return remove(ref(db, `sessions/${gameState.sessionId}/users/${userId}`));
     };
+
+    onDisconnect(ref(db, `sessions/${gameState?.sessionId}/users/${gameState?.userId}`)).remove();
 
     return {
         users,
