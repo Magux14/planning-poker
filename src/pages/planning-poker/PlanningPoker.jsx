@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePlanningPoker } from '../../hooks/useFirebase';
 import { Modal } from 'antd';
 import { Spin } from 'antd';
@@ -21,7 +21,7 @@ export const PlanningPoker = () => {
     const { users, vote, clearVotes, revealVotesForEveryone, removeUser } = usePlanningPoker(gameState);
     const [selectedVote, setSelectedVote] = useState(null);
     const [kickedOff, setKickedOff] = useState(null);
-
+    const prevVoteRef = useRef();
 
     const handleVote = (card) => {
         setSelectedVote(card);
@@ -78,7 +78,7 @@ export const PlanningPoker = () => {
         return revealVotes;
     }
 
-    const getAvegareValue = () => {
+    const getAverageValue = () => {
         let points = 0;
         let playersNum = 0;
         for (const uuid in users) {
@@ -132,12 +132,24 @@ export const PlanningPoker = () => {
         }
     }, [Object.entries(users).length])
 
+    useEffect(() => {
+
+        if (gameState.userId) {
+            if (prevVoteRef.current && !users[gameState.userId].vote) {
+                setSelectedVote(null);
+            }
+
+            prevVoteRef.current = users[gameState.userId].vote;
+        }
+
+    }, [users]);
+
     // useEffect(() => {
 
     // }, users[gameState.userId].vote)
 
     const showVotes = showVotesAnyUser();
-    const avegare = getAvegareValue();
+    const avegare = getAverageValue();
 
     return (
         <div className="planning-poker__container">
