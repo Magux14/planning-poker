@@ -4,7 +4,6 @@ import { Modal } from 'antd';
 import { Spin } from 'antd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './planning-poker.scss'
-import { useSearchParams } from 'react-router-dom';
 
 const cards = ['1', '2', '3', '5', '8', '13'];
 
@@ -22,6 +21,7 @@ export const PlanningPoker = () => {
     const { users, vote, clearVotes, revealVotesForEveryone, removeUser } = usePlanningPoker(gameState);
     const [selectedVote, setSelectedVote] = useState(null);
     const [kickedOff, setKickedOff] = useState(null);
+
 
     const handleVote = (card) => {
         setSelectedVote(card);
@@ -100,6 +100,29 @@ export const PlanningPoker = () => {
         return kickedOut;
     }
 
+    const getIconByCard = (num) => {
+        if (num == 1) {
+            return 'diamantes';
+        } else if (num == 2) {
+            return 'treboles';
+
+        } else if (num == 3) {
+            return 'espadas';
+
+        } else if (num == 5) {
+            return 'corazones';
+
+        } else if (num == 8) {
+            return 'treboles';
+
+        } else if (num == 13) {
+            return 'corazones';
+
+        } else {
+            return 'espadas';
+        }
+    }
+
     useEffect(() => {
         if (gameState.userId) {
             const kickedOut = checkIfKickedOut();
@@ -108,6 +131,10 @@ export const PlanningPoker = () => {
             }
         }
     }, [Object.entries(users).length])
+
+    // useEffect(() => {
+
+    // }, users[gameState.userId].vote)
 
     const showVotes = showVotesAnyUser();
     const avegare = getAvegareValue();
@@ -168,7 +195,7 @@ export const PlanningPoker = () => {
 
                     <div className="planning-poker__elements-container">
                         <div className="planning-poker__element-players">
-                            <div className="planning-poker__players-title-container">PLAYERS:</div>
+                            <div className="planning-poker__players-title-container planning-poker__casino-text">PLAYERS:</div>
                             <div className="planning-poker__players-container">
                                 {Object.entries(users).map(([uid, user]) => (
                                     <div className={`planning-poker__player ${gameState.name == user.name ? 'planning-poker__player--me' : ''}`} key={uid}>
@@ -212,25 +239,31 @@ export const PlanningPoker = () => {
                         </div>
 
                         <div className="planning-poker__element-cards">
-                            <div className="planning-poker__cards-title-container">
+                            <div className="planning-poker__cards-title-container planning-poker__casino-text">
                                 Your Vote:
                             </div>
 
                             <div className="planning-poker__cards-container">
-                                {cards.map((card) => (
-                                    <button
-                                        key={card}
-                                        onClick={() => handleVote(card)}
-                                        style={{
-                                            backgroundColor: selectedVote === card ? 'rgba(44, 163, 179, 1)' : 'rgba(15, 23, 79, 1)',
-                                            borderRadius: '5px',
-                                            cursor: 'pointer',
-                                        }}
-                                    >
-                                        {card}
-                                        <div className="planning-poker__shine-card"></div>
-                                    </button>
-                                ))}
+                                {
+
+                                    cards.map((card) => (
+                                        <button
+                                            key={card}
+                                            onClick={() => handleVote(card)}
+                                            className={`${selectedVote === card ? 'planning-poker__card--selected' : ''}`}
+                                            style={{
+                                                // backgroundColor: selectedVote === card ? 'rgba(44, 163, 179, 1)' : 'rgba(15, 23, 79, 1)',
+                                                borderRadius: '5px',
+                                                cursor: 'pointer',
+                                                color: card == 1 || card == 5 || card == 13 ? '#c50303' : 'black'
+                                            }}
+                                        >
+                                            {card}
+                                            <div className="planning-poker__shine-card"></div>
+                                            <img src={`../imgs/card-icons/${getIconByCard(card)}.webp`} className="planning-poker__top-icon" />
+                                            <img src={`../imgs/card-icons/${getIconByCard(card)}.webp`} className="planning-poker__bottom-icon" />
+                                        </button>
+                                    ))}
                             </div>
                             {gameState.isAdmin && (
                                 <div className="planning-poker__buttons-container">

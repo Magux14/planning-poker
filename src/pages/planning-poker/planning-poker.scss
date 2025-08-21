@@ -4,6 +4,30 @@
         flex-direction: column;
         align-items: center;
         padding-bottom: 100px;
+        background: url(../imgs/background.webp);
+        background-size: cover; // mejor cover que 100% para que no se deforme
+        background-position: center;
+        min-height: 100%;
+        position: relative; // importante para el pseudo-elemento
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0; // top:0, right:0, bottom:0, left:0
+            pointer-events: none; // no bloquea clicks
+            background: linear-gradient(to right,
+                    rgba(0, 0, 0, 0.6) 0%,
+                    rgba(0, 0, 0, 0) 20%,
+                    rgba(0, 0, 0, 0) 80%,
+                    rgba(0, 0, 0, 0.6) 100%);
+            z-index: 1;
+        }
+
+        // asegúrate que el contenido esté por encima del fade
+        >* {
+            position: relative;
+            z-index: 2;
+        }
     }
 
     &__fields-container {
@@ -76,26 +100,43 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
-        padding: 10px 0;
-        color: white;
-        background: black;
+        width: fit-content;
+        margin: 20px auto;
+        padding: 18px 40px;
+        background: linear-gradient(145deg, #111, #222); // efecto de placa
+        border: 4px solid gold;
+        border-radius: 16px;
+        box-shadow:
+            0 4px 12px rgba(0, 0, 0, 0.6),
+            0 0 15px rgba(255, 215, 0, 0.6); // brillo dorado
 
         h1 {
             font-family: 'blockbuster', 'Courier New', Courier, monospace;
             text-transform: uppercase;
-            font-size: 20px;
+            font-size: 32px;
+            margin: 0;
+            background: linear-gradient(180deg, #ffd700 0%, #cdaa00 50%, #fff8dc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+
+            text-shadow:
+                0 0 6px rgba(255, 215, 0, 0.8),
+                0 0 12px rgba(0, 0, 0, 0.8);
         }
 
         h4 {
-            font-size: 13px;
+            margin-top: 6px;
+            font-size: 15px;
+            color: #fff;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
         }
     }
 
     &__players-title-container {
-        margin: 20px;
         display: flex;
         justify-content: center;
+        padding: 10px;
         font-weight: bold;
         font-size: 15px;
 
@@ -125,6 +166,9 @@
         border-radius: 10px;
         gap: 10px;
         max-width: 250px;
+        box-shadow:
+            0 4px 6px rgba(0, 0, 0, 0.1),
+            0 10px 20px rgba(0, 0, 0, 0.15);
 
         @media (max-width: 990px) {
             flex: 100%;
@@ -132,7 +176,7 @@
     }
 
     &__player--me {
-        background: rgb(213, 243, 240);
+        background: rgb(248, 205, 124);
     }
 
     &__player-name-container {
@@ -183,17 +227,41 @@
             overflow: hidden;
             position: relative;
             border: 4px solid rgb(236, 236, 236);
-            font-size: 25px;
+            font-size: 30px;
             width: 60px;
             height: 100px;
-            color: white;
             border-radius: 24px;
+            font-weight: bold;
+            box-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        button:hover {
-            opacity: 0.8;
-            transform: scale(1.01);
+        button:hover:not(.planning-poker__card--selected) {
+            transform: scale(1.1);
+            z-index: 1;
         }
+    }
+
+    &__card--selected {
+        transform: scale(1.3) rotate(-25deg) translateY(30px) translateX(-20px);
+        z-index: 1;
+    }
+
+    &__top-icon {
+        position: absolute;
+        width: 20%;
+        top: 0;
+        left: 0;
+    }
+
+    &__bottom-icon {
+        position: absolute;
+        width: 20%;
+        transform: rotate(180deg);
+        bottom: 0;
+        right: 0;
     }
 
     &__shine-card_test {
@@ -208,7 +276,6 @@
                 rgba(255, 255, 255, 0.5) 50%,
                 rgba(255, 255, 255, 0) 60%);
         transform: rotate(25deg);
-        // animation: shineMove 7.5s ease-in-out infinite;
     }
 
     @keyframes shineMove {
@@ -236,10 +303,38 @@
         }
     }
 
+    &__casino-text {
+        font-family: 'Arial Black', Impact, sans-serif;
+        font-size: 40px;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+
+        /* efecto de pintura */
+        text-shadow:
+            0 1px 0 rgba(0, 0, 0, 0.2),
+            0 2px 4px rgba(0, 0, 0, 0.4),
+            0 0 6px rgba(255, 255, 255, 0.2);
+
+        /* textura "desgastada" */
+        background: repeating-linear-gradient(45deg,
+                rgba(255, 255, 255, 0.1) 0,
+                rgba(255, 255, 255, 0.1) 2px,
+                transparent 2px,
+                transparent 4px);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        @media (max-width: 990px) {
+            font-size: 30px;
+        }
+    }
+
     &__cards-title-container {
         display: flex;
         justify-content: center;
         padding: 10px;
+        color: white;
     }
 
     &__average-container {
@@ -248,6 +343,7 @@
         font-size: 25px;
         font-weight: bold;
         margin-top: 10px;
+        color: white;
     }
 
     &__buttons-container {
