@@ -134,7 +134,7 @@ export const PlanningPoker = () => {
 
     useEffect(() => {
 
-        if (gameState.userId) {
+        if (gameState.userId && users[gameState.userId]) {
             if (prevVoteRef.current && !users[gameState.userId].vote) {
                 setSelectedVote(null);
             }
